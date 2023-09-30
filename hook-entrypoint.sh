@@ -81,7 +81,11 @@ function get_hooks() {
     esac
 }
 
-for script in $(get_hooks); do
+hooks="$(get_hooks)"
+[ "$?" -ne "0" ] && exit 1
+
+for script in "${hooks}"
+do
     script_name="$(basename ${script})"
     printf "%-60s" "${script_name}"
     hook_outfile=$(mktemp /tmp/git-hook-${script_name%.*}.XXX)
