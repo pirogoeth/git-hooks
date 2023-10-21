@@ -84,7 +84,7 @@ function get_hooks() {
 hooks="$(get_hooks)"
 [ "$?" -ne "0" ] && exit 1
 
-for script in "${hooks}"
+echo "${hooks}" | while read script
 do
     script_name="$(basename ${script})"
     printf "%-60s" "${script_name}"
