@@ -83,7 +83,7 @@ else
     format_command=( "black" )
 fi
 
-format_command+=("${black_args[@]}" "${input_files[@]}" )
+format_command+=( "${black_args[@]}" "${input_files[@]}" )
 "${format_command[@]}"
 exitcode=$?
 
