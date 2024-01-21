@@ -68,6 +68,7 @@ function gitleaks() {
 }
 
 detect_command=( "gitleaks" "protect" "--source" "${REPO_ROOT_DIR}" "--no-banner" )
+"${detect_command[@]}"
 
 exitcode=$?
 case $exitcode in
