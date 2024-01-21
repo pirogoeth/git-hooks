@@ -11,6 +11,7 @@ HOOK_DEBUG="${HOOK_DEBUG:-}"
 BASE_DATA_DIR="${XDG_DATA_HOME:-${HOME}/.local/share}/git-hooks"
 DATA_DIR="${BASE_DATA_DIR}"
 YQ_VERSION=v4.35.1
+export REPO_ROOT_DIR="$(git rev-parse --show-toplevel)"
 export LOG_FILE="${BASE_DATA_DIR}/log.txt"
 
 mkdir -p "${BASE_DATA_DIR}"
