@@ -21,7 +21,7 @@ source "${hooks_dir}/../lib-yq.sh"
 GITLEAKS_VERSION=v8.18.1
 
 function gitleaks::download() {
-    local bin_path="${GITLEAKS_STAGING_DIR}/${GITLEAKS_VERSION}"
+    local bin_path="${DATA_DIR}/${GITLEAKS_VERSION}"
     if [ -d "${bin_path}" ]
     then
         echo "${bin_path}/gitleaks"
