@@ -18,11 +18,11 @@ YQ_VERSION=v4.35.1
 source "${hooks_dir}/../lib-log.sh"
 source "${hooks_dir}/../lib-yq.sh"
 
-GITLEAKS_VERSION=v8.18.1
+GITLEAKS_VERSION=8.18.1
 
 function gitleaks::download() {
     local bin_path="${DATA_DIR}/${GITLEAKS_VERSION}"
-    if [ -d "${bin_path}" ]
+    if [[ -d "${bin_path}" ]] && [[ -x "${bin_path}/gitleaks" ]]
     then
         echo "${bin_path}/gitleaks"
         return 0
@@ -50,9 +50,8 @@ function gitleaks::download() {
             ;;
     esac
 
-    curl -sL "https://github.com/gitleaks/gitleaks/releases/download/${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_${os}_${arch}.tar.gz" \
+    curl -sL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_${os}_${arch}.tar.gz" \
         | tar xz -C "${bin_path}"
-    mv "${bin_path}/gitleaks_${os}_${arch}" "${bin_path}/gitleaks"
     chmod +x "${bin_path}/gitleaks"
 
     echo "${bin_path}/gitleaks"
@@ -64,15 +63,16 @@ function gitleaks() {
         gitleaks_bin=$(gitleaks::download)
     fi
 
-    "${gitleaks_bin}" "$*"
+    "${gitleaks_bin}" "$@"
 }
 
 detect_command=( "gitleaks" "protect" "--source" "${REPO_ROOT_DIR}" "--no-banner" )
-"${detect_command[@]}"
+"${detect_command[@]}" 2>&1
 
 exitcode=$?
 case $exitcode in
     0)
+        # jk artificial failure
         exit 0
         ;;
     1)
