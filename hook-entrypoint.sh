@@ -34,7 +34,7 @@ function configured_hooks() {
         return 99
     }
 
-    hook_files=$(yq "(.gitHooks // {})[\"${script_mode}\"][]" < "${hook_config}")
+    hook_files=$(yq -r "(.gitHooks // {})[\"${script_mode}\"][]" < "${hook_config}")
     [ -z "${hook_files}" ] && {
         log::info "No hook files defined at .gitHooks[\"${script_mode}\"], not running any hooks"
         return 0
@@ -44,6 +44,7 @@ function configured_hooks() {
     do
         [ -z "${hook_filename}" ] && continue
         hook_path="${hook_scripts}/${hook_filename}"
+        log::debug "Checking for ${hook_filename} (${hook_path})"
         [ ! -f "${hook_path}" ] && {
             log::error "Hook ${hook_filename} configured to run, but doesn't exist"
             return 127
